@@ -1,0 +1,28 @@
+{
+	"schemaVersion": 1,
+	"id": "horsewhistle",
+	"version": "${version}",
+	"name": "Horse Whistle",
+	"description": "Whistle to call your selected tamed horse behind you.",
+	"authors": [
+		"ThBTT"
+	],
+	"contact": {},
+	"license": "MIT",
+	"icon": "assets/horsewhistle/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.thbtt.horsewhistle.HorseWhistle"
+		],
+		"client": [
+			"net.thbtt.horsewhistle.client.HorseWhistleClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

@@ -1,0 +1,34 @@
+{
+  "whistle01": {
+    "sounds": [
+      {
+        "name": "horsewhistle:whistle01",
+        "stream": false
+      }
+    ]
+  },
+  "whistle02": {
+    "sounds": [
+      {
+        "name": "horsewhistle:whistle02",
+        "stream": false
+      }
+    ]
+  },
+  "whistle03": {
+    "sounds": [
+      {
+        "name": "horsewhistle:whistle03",
+        "stream": false
+      }
+    ]
+  },
+  "whistle04": {
+    "sounds": [
+      {
+        "name": "horsewhistle:whistle04",
+        "stream": false
+      }
+    ]
+  }
+}
