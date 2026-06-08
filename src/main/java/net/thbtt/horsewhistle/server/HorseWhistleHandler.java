@@ -454,7 +454,7 @@ public final class HorseWhistleHandler {
         if (!debugEnabled) {
             return;
         }
-        player.sendMessage(Text.literal("§e[Horse Whistle Debug] §f" + message), false);
+        player.sendMessage(Text.literal("§e[Whistlebound Horse Debug] §f" + message), false);
         player.sendMessage(Text.literal(message), true);
     }
 }

@@ -1,10 +1,10 @@
 {
-  "category.horsewhistle": "Horse Whistle",
+  "category.horsewhistle": "Whistlebound Horse",
   "key.horsewhistle.whistle": "Whistle for Horse",
   "key.horsewhistle.open_selection_menu": "Open Horse Selection",
 
   "message.horsewhistle.no_selected_horse": "No horse selected. Press the Horse Selection key.",
-  "message.horsewhistle.server_missing": "Horse Whistle is not installed on the server.",
+  "message.horsewhistle.server_missing": "Whistlebound Horse is not installed on the server.",
   "message.horsewhistle.horse_not_found": "The selected horse is not loaded.",
   "message.horsewhistle.not_owner": "That horse is not yours or is not tamed.",
   "message.horsewhistle.horse_busy": "That horse is being ridden.",
@@ -12,7 +12,7 @@
   "message.horsewhistle.teleport_failed": "Could not teleport the horse.",
   "message.horsewhistle.teleported": "%s came to you.",
 
-  "screen.horsewhistle.title": "Horse Whistle",
+  "screen.horsewhistle.title": "Whistlebound Horse",
   "screen.horsewhistle.selected": "Selected: %s",
   "screen.horsewhistle.selected_none": "Selected: none",
   "screen.horsewhistle.server_missing": "Join a world with the mod installed on the server.",

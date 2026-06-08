@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "horsewhistle",
 	"version": "${version}",
-	"name": "Horse Whistle",
+	"name": "Whistlebound Horse",
 	"description": "Whistle to call your selected tamed horse behind you.",
 	"authors": [
 		"ThBTT"

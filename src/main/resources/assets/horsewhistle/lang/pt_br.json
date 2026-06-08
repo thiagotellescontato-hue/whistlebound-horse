@@ -1,10 +1,10 @@
 {
-  "category.horsewhistle": "Horse Whistle",
+  "category.horsewhistle": "Whistlebound Horse",
   "key.horsewhistle.whistle": "Assoviar para o cavalo",
   "key.horsewhistle.open_selection_menu": "Abrir seleção de cavalo",
 
   "message.horsewhistle.no_selected_horse": "Nenhum cavalo escolhido. Aperte a tecla de seleção de cavalo.",
-  "message.horsewhistle.server_missing": "Horse Whistle não está instalado no servidor.",
+  "message.horsewhistle.server_missing": "Whistlebound Horse não está instalado no servidor.",
   "message.horsewhistle.horse_not_found": "O cavalo escolhido não está carregado.",
   "message.horsewhistle.not_owner": "Esse cavalo não é seu ou não está domado.",
   "message.horsewhistle.horse_busy": "Esse cavalo está sendo montado.",
@@ -12,7 +12,7 @@
   "message.horsewhistle.teleport_failed": "Não consegui teleportar o cavalo.",
   "message.horsewhistle.teleported": "%s veio até você.",
 
-  "screen.horsewhistle.title": "Horse Whistle",
+  "screen.horsewhistle.title": "Whistlebound Horse",
   "screen.horsewhistle.selected": "Escolhido: %s",
   "screen.horsewhistle.selected_none": "Escolhido: nenhum",
   "screen.horsewhistle.server_missing": "Entre em um mundo com o mod instalado no servidor.",

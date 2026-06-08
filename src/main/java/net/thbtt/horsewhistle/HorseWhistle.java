@@ -143,7 +143,7 @@ public class HorseWhistle implements ModInitializer {
 		HorseWhistleStorage.removeStale(horse.getUuid());
 
 		if (owner != null && HorseWhistleHandler.isDebugEnabled()) {
-			owner.sendMessage(Text.literal("§e[Horse Whistle Debug] §fStale original horse loaded and deleted: " + horseName + " / " + deletedUuid), false);
+			owner.sendMessage(Text.literal("§e[Whistlebound Horse Debug] §fStale original horse loaded and deleted: " + horseName + " / " + deletedUuid), false);
 			owner.sendMessage(Text.literal("Stale original horse deleted."), true);
 		}
 	}

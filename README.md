@@ -1,4 +1,4 @@
-# Horse Whistle
+# Whistlebound Horse
 
 ## Setup
 
