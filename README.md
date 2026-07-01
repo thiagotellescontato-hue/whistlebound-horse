@@ -33,7 +33,7 @@ If there is no safe place nearby, the horse will not be moved and you will see a
 
 ## Compatibility
 
-* Minecraft: **1.21.1 through 1.21.11 and 26.1 through 26.1.2**
+* Minecraft: **1.21.1 through 1.21.11 and 26.1 through 26.2**
 * Mod loader: **Fabric**
 * Environment: **Client and Server**
 
