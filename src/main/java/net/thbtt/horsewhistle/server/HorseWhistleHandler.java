@@ -99,16 +99,8 @@ public final class HorseWhistleHandler {
 
             HorseWhistleStorage.rememberAsKey(originalHorse, keyUuid);
             storedHorse = HorseWhistleStorage.get(keyUuid);
-
-            originalHorse.discard();
-            debug(player, "Original horse located and deleted.");
         } else {
             debug(player, "Original horse not located. Spawning from saved snapshot anyway.");
-
-            if (activeHorseUuid != null) {
-                HorseWhistleStorage.markStale(activeHorseUuid);
-                debug(player, "Old original UUID marked for cleanup: " + activeHorseUuid);
-            }
         }
 
         Entity clonedEntity = createCloneFromStoredHorse(player, storedHorse, targetWorld, targetPos);
@@ -125,12 +117,27 @@ public final class HorseWhistleHandler {
             return;
         }
 
+        ServerWorld originalWorld = null;
+        if (originalHorse != null) {
+            originalWorld = (ServerWorld) originalHorse.getWorld();
+            originalHorse.discard();
+            debug(player, "Original horse located and deleted.");
+        }
+
         boolean spawned = targetWorld.spawnNewEntityAndPassengers(clonedHorse);
 
         if (!spawned) {
+            if (originalWorld != null && restoreStoredHorse(storedHorse, originalWorld)) {
+                debug(player, "Clone spawn failed. Original horse was restored.");
+            }
             debug(player, "Clone spawn failed.");
             player.sendMessage(Text.literal("Could Not Call Horse"), true);
             return;
+        }
+
+        if (originalHorse == null && activeHorseUuid != null) {
+            HorseWhistleStorage.markStale(activeHorseUuid, storedHorse);
+            debug(player, "Old original UUID marked for cleanup: " + activeHorseUuid);
         }
 
         HorseWhistleStorage.updateActiveHorse(keyUuid, clonedHorse);
@@ -246,8 +253,11 @@ public final class HorseWhistleHandler {
     ) {
         try {
             NbtCompound nbt = StringNbtReader.parse(storedHorse.snbt());
+            UUID storedUuid = parseUuidOrNull(storedHorse.activeHorseUuid());
 
-            nbt.remove("UUID");
+            if (storedUuid != null) {
+                nbt.putUuid("UUID", storedUuid);
+            }
 
             nbt.remove("Pos");
             nbt.remove("Motion");
@@ -267,6 +277,20 @@ public final class HorseWhistleHandler {
         } catch (Exception exception) {
             debug(player, "Failed to parse saved horse NBT: " + exception.getMessage());
             return null;
+        }
+    }
+
+    private static boolean restoreStoredHorse(
+            HorseWhistleStorage.StoredHorse storedHorse,
+            ServerWorld originalWorld
+    ) {
+        try {
+            NbtCompound nbt = StringNbtReader.parse(storedHorse.snbt());
+            Entity restoredEntity = EntityType.loadEntityWithPassengers(nbt, originalWorld, entity -> entity);
+            return restoredEntity instanceof AbstractHorseEntity
+                    && originalWorld.spawnNewEntityAndPassengers(restoredEntity);
+        } catch (Exception ignored) {
+            return false;
         }
     }
 

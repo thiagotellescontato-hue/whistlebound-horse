@@ -17,6 +17,7 @@ public final class HorseWhistleStorage extends PersistentState {
  
     private final Map<String, StoredHorse> horses = new HashMap<>();
     private final Set<String> staleHorseUuids = new HashSet<>();
+    private final Set<StaleHorse> staleHorses = new HashSet<>();
  
     private HorseWhistleStorage() {
     }
@@ -45,6 +46,15 @@ public final class HorseWhistleStorage extends PersistentState {
                 storage.staleHorseUuids.add(key);
             }
         }
+        if (nbt.contains("stale_horse_locations")) {
+            NbtCompound staleNbt = nbt.getCompound("stale_horse_locations");
+            for (String key : staleNbt.getKeys()) {
+                StaleHorse staleHorse = GSON.fromJson(staleNbt.getString(key), StaleHorse.class);
+                if (staleHorse != null) {
+                    storage.staleHorses.add(staleHorse);
+                }
+            }
+        }
         return storage;
     }
  
@@ -61,6 +71,13 @@ public final class HorseWhistleStorage extends PersistentState {
             staleNbt.putBoolean(uuid, true);
         }
         nbt.put("stale_horses", staleNbt);
+
+        NbtCompound staleLocationsNbt = new NbtCompound();
+        int index = 0;
+        for (StaleHorse staleHorse : staleHorses) {
+            staleLocationsNbt.putString(Integer.toString(index++), GSON.toJson(staleHorse));
+        }
+        nbt.put("stale_horse_locations", staleLocationsNbt);
         return nbt;
     }
 
@@ -155,24 +172,65 @@ public final class HorseWhistleStorage extends PersistentState {
         }
     }
 
-    public static void markStale(UUID horseUuid) {
+    public static void markStale(UUID horseUuid, StoredHorse storedHorse) {
         if (INSTANCE == null) return;
-        INSTANCE.staleHorseUuids.add(horseUuid.toString());
+        INSTANCE.staleHorses.add(new StaleHorse(
+                horseUuid.toString(),
+                storedHorse.dimension(),
+                storedHorse.x(),
+                storedHorse.y(),
+                storedHorse.z()
+        ));
         INSTANCE.markDirty();
     }
  
-    public static boolean isStale(UUID horseUuid) {
-        return INSTANCE != null && INSTANCE.staleHorseUuids.contains(horseUuid.toString());
+    public static boolean isStale(AbstractHorseEntity horse) {
+        if (INSTANCE == null) return false;
+        if (INSTANCE.staleHorseUuids.contains(horse.getUuidAsString())) return true;
+        if (!(horse.getWorld() instanceof ServerWorld world)) return false;
+
+        BlockPos pos = horse.getBlockPos();
+        StaleHorse staleHorse = new StaleHorse(
+                horse.getUuidAsString(),
+                world.getRegistryKey().getValue().toString(),
+                pos.getX(),
+                pos.getY(),
+                pos.getZ()
+        );
+        return INSTANCE.staleHorses.contains(staleHorse);
     }
  
     public static boolean hasStaleHorses() {
-        return INSTANCE != null && !INSTANCE.staleHorseUuids.isEmpty();
+        return INSTANCE != null && (!INSTANCE.staleHorseUuids.isEmpty() || !INSTANCE.staleHorses.isEmpty());
     }
  
-    public static void removeStale(UUID horseUuid) {
+    public static void removeStale(AbstractHorseEntity horse) {
         if (INSTANCE == null) return;
-        INSTANCE.staleHorseUuids.remove(horseUuid.toString());
-        INSTANCE.markDirty();
+
+        boolean removed = INSTANCE.staleHorseUuids.remove(horse.getUuidAsString());
+        if (horse.getWorld() instanceof ServerWorld world) {
+            BlockPos pos = horse.getBlockPos();
+            removed |= INSTANCE.staleHorses.remove(new StaleHorse(
+                    horse.getUuidAsString(),
+                    world.getRegistryKey().getValue().toString(),
+                    pos.getX(),
+                    pos.getY(),
+                    pos.getZ()
+            ));
+        }
+
+        if (removed) {
+            INSTANCE.markDirty();
+        }
+    }
+
+    private record StaleHorse(
+            String uuid,
+            String dimension,
+            int x,
+            int y,
+            int z
+    ) {
     }
  
     public record StoredHorse(

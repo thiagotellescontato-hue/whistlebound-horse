@@ -110,7 +110,7 @@ public class HorseWhistle implements ModInitializer {
 					continue;
 				}
 
-				if (HorseWhistleStorage.isStale(horse.getUuid())) {
+				if (HorseWhistleStorage.isStale(horse)) {
 					staleEntities.add(entity);
 				}
 			}
@@ -126,7 +126,7 @@ public class HorseWhistle implements ModInitializer {
 			return;
 		}
 
-		if (!HorseWhistleStorage.isStale(horse.getUuid())) {
+		if (!HorseWhistleStorage.isStale(horse)) {
 			return;
 		}
 
@@ -140,7 +140,7 @@ public class HorseWhistle implements ModInitializer {
 		String horseName = horse.getName().getString();
 
 		horse.discard();
-		HorseWhistleStorage.removeStale(horse.getUuid());
+		HorseWhistleStorage.removeStale(horse);
 
 		if (owner != null && HorseWhistleHandler.isDebugEnabled()) {
 			owner.sendMessage(Text.literal("§e[Whistlebound Horse Debug] §fStale original horse loaded and deleted: " + horseName + " / " + deletedUuid), false);
