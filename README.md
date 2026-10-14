@@ -6,7 +6,7 @@ After taming a horse, you can choose which one is bound to your whistle using a 
 
 ## Preview
 
-![Preview](https://cdn.modrinth.com/data/cached_images/b8588249f91a010d208dc611767de328ab7b2b3e.gif)
+![preview](https://cdn.modrinth.com/data/cached_images/72a6f87cf14558cd2421b891345fcfa40f3170f9.gif)
 
 ## Features
 
